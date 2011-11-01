@@ -109,7 +109,8 @@ class AI
 		@my_ants=[]
 		@enemy_ants=[]
 		@food=[]
-		@hills=[]
+		@my_hills=[]
+		@enemy_hills=[]
 		
 		@did_setup=false
 	end
@@ -220,7 +221,8 @@ class AI
 		@my_ants=[]
 		@enemy_ants=[]
 		@food=[]
-		@hills=[]
+		@my_hills=[]
+		@enemy_hills=[]
 		
 		until((rd=@stdin.gets.strip)=='go')
 			_, type, row, col, owner = *rd.match(/(w|f|h|a|d) (\d+) (\d+)(?: (\d+)|)/)
@@ -235,7 +237,11 @@ class AI
 				@food.push @map[row][col]
 			when 'h'
 				@map[row][col].hill=owner
-				@hills.push @map[row][col] 
+				if owner==0
+					@my_hills.push @map[row][col]
+				else
+					@enemy_hills.push @map[row][col]
+				end
 			when 'a'
 				a=Ant.new true, owner, @map[row][col], self
 				@map[row][col].ant = a
@@ -285,7 +291,8 @@ class AI
 	
 	def food; @food; end
 	
-	def hills; @hills; end
+	def my_hills; @my_hills; end
+	def enemy_hills; @enemy_hills; end
 	
 	# If row or col are greater than or equal map width/height, makes them fit the map.
 	#
